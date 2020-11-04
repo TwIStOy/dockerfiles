@@ -1,0 +1,28 @@
+FROM amd64/ubuntu:14.04
+
+RUN rm -rf /var/lib/{apt,dpkg,cache,log}/
+
+RUN apt-get update && apt-get install -y libcrypto++9 libtcmalloc-minimal4 \
+	zlib1g libconfig++-dev libmsgpack-dev libssl-dev libcrypto++-dev \
+	libgoogle-perftools-dev libsrtp0-dev libhiredis-dev libmysqlclient-dev \
+	libevent-dev libmysqlcppconn-dev wget zip build-essential libtool \
+	binutils-2.26 gdb tcpdump autoconf cmake3 git vim python
+
+RUN apt-get install -y uuid-dev libglib2.0-dev
+ENV PATH="/usr/lib/binutils-2.26/bin:$PATH"
+
+# autoconf
+# RUN wget https://www.openssl.org/source/openssl-1.1.1c.tar.gz -O /tmp/openssl.tar.gz && cd /tmp \
+#       && tar xf openssl.tar.gz && cd openssl-1.1.1c && setarch i386 ./config -m32 && make -j4 && make install \
+#       && cd /tmp && rm -rf openssl-1.1.1c && rm openssl.tar.gz
+
+# RUN cd /usr/src && wget https://www.bullseye.com/download/BullseyeCoverage-8.15.11-Linux-x64.tar \
+#  && tar xvf BullseyeCoverage-8.15.11-Linux-x64.tar && cd BullseyeCoverage-8.15.11 \
+#  && ./install --prefix /opt/BullseyeCoverage --key 3VPypR0MACbL1ZYRX30n4fXr0cRJfb3EpeQd \
+#  && cd .. && rm -rf BullseyeCoverage-8.15.11/ && rm BullseyeCoverage-8.15.11-Linux-x64.tar
+#
+# ENV PATH="/opt/BullseyeCoverage/bin:${PATH}"
+
+VOLUME /data
+WORKDIR /data
+
